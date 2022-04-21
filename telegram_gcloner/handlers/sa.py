@@ -48,9 +48,11 @@ def get_sa(update, context):
         update.message.reply_text('Only zip files are accepted.')
         return
 
-    file_pah = os.path.join(gclone_path,
-                            "{}_{}_{}".format(current_time.strftime("%Y-%m-%d"),
-                                              current_time.strftime("%H-%M-%S"), file_name))
+    file_pah = os.path.join(
+        gclone_path,
+        f'{current_time.strftime("%Y-%m-%d")}_{current_time.strftime("%H-%M-%S")}_{file_name}',
+    )
+
     if not os.path.isdir(gclone_path):
         Path(gclone_path).mkdir(parents=True, exist_ok=True)
     file = document.get_file(timeout=20)
@@ -107,4 +109,6 @@ def get_sa(update, context):
         config_file.write(file_to_write)
 
     update.message.reply_text('✔️ A total of {} SA files were received and configured. \n │ Now bookmark your favorite folders with /folders'.format(json_count))
-    logger.info('{} service account files have been saved for {}.'.format(json_count, update.effective_user.id))
+    logger.info(
+        f'{json_count} service account files have been saved for {update.effective_user.id}.'
+    )
